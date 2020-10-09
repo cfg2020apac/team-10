@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -6,8 +6,11 @@ import {
   View,
   Text,
   StatusBar,
+  Alert,
 } from 'react-native';
 import { Button } from 'react-native-elements';
+
+import { UserContext } from '../../util/UserProvider';
 
 /*
 {"officerID": "Danieltan123465", 
@@ -19,6 +22,7 @@ import { Button } from 'react-native-elements';
 */
 export default Profile = ({ navigation }) => {
   const [profile, setProfile] = useState(null);
+  const { setUserId, setAuthToken } = useContext(UserContext);
 
   useEffect(() => {
     if (profile == null) {
@@ -57,6 +61,25 @@ export default Profile = ({ navigation }) => {
             style={styles.buttonContainer}
             title="Edit Profile"
             onPress={() => navigation.navigate('EditProfile')}
+          />
+          <Button
+            style={styles.buttonContainer}
+            title="Logout"
+            onPress={() =>
+              Alert.alert('Logout', 'Are you sure you want to logout?', [
+                {
+                  text: 'Cancel',
+                  style: 'cancel',
+                },
+                {
+                  text: 'Yes',
+                  onPress: () => {
+                    setUserId(null);
+                    setAuthToken(null);
+                  },
+                },
+              ])
+            }
           />
         </View>
       </ScrollView>
