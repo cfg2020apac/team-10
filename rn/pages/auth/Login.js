@@ -50,31 +50,32 @@ export default Login = ({ navigation }) => {
   return (
     <SafeAreaView>
       <KeyboardAvoidingView style={styles.container}>
-        <Image  source={require('../../img/login.png')}
-                    style={{ width: 120, 
-                            height: 120,  
-                            marginTop: 100,
-                            marginHorizontal: 145}}
+        <Image
+          source={require('../../img/login.png')}
+          style={{
+            width: 120,
+            height: 120,
+            marginTop: 100,
+            marginHorizontal: 145,
+          }}
         />
-        <Input 
-          placeholder='Username' 
-          value={username} 
-          containerStyle={{marginTop:40}}
-          inputContainerStyle={{marginHorizontal:20}}
-          onChangeText={setUsername} />
         <Input
-          placeholder='Password'
+          placeholder="Username"
+          value={username}
+          containerStyle={{ marginTop: 40 }}
+          inputContainerStyle={{ marginHorizontal: 20 }}
+          onChangeText={setUsername}
+        />
+        <Input
+          placeholder="Password"
           value={password}
           onChangeText={setPassword}
-          containerStyle={{marginBottom:40}}
-          inputContainerStyle={{marginHorizontal:20}}
+          containerStyle={{ marginBottom: 40 }}
+          inputContainerStyle={{ marginHorizontal: 20 }}
           secureTextEntry
         />
 
-        <Button 
-          style={styles.buttonContainer} 
-          title="Login" 
-          onPress={login} />
+        <Button style={styles.buttonContainer} title="Login" onPress={login} />
         <Button
           style={styles.buttonContainer}
           title="Don't have an account? Signup"
@@ -100,6 +101,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     margin: 6,
     marginHorizontal: 20,
-    width:380
+    width: 380,
   },
 });
