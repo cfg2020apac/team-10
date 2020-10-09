@@ -12,6 +12,8 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Icon } from 'react-native-elements';
 
 import Todo from './pages/todo/Todo';
 import CreateNewApplicant from './pages/applicants/CreateNewApplicant';
@@ -135,7 +137,28 @@ const Navigator = () => {
           <AuthStack.Screen name="Signup" component={Signup} />
         </AuthStack.Navigator>
       ) : (
-        <Tab.Navigator>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              const iconNames = {
+                Todo: 'list-ul',
+                Applicants: 'users',
+                Activity: 'area-chart',
+                Profile: 'user',
+              };
+
+              // You can return any component that you like here!
+              return (
+                <Icon
+                  type="font-awesome"
+                  name={iconNames[route.name]}
+                  size={size}
+                  color={color}
+                />
+              );
+            },
+          })}
+        >
           <Tab.Screen name="Todo" component={TodoStackScreen} />
           <Tab.Screen name="Applicants" component={ApplicantsStackScreen} />
           <Tab.Screen name="Activity" component={ActivityStackScreen} />
