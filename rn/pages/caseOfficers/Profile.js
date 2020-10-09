@@ -13,14 +13,6 @@ import axios from 'axios';
 
 import { UserContext } from '../../util/UserProvider';
 
-/*
-{"officerID": "Danieltan123465", 
-"password": "holyCrap", 
-"officerType": "Admin", 
-"name": "Daniel Tan Tan",
- "organisationName": "New hope", 
- "designation":"MR" }
-*/
 export default Profile = ({ route, navigation }) => {
   const [profile, setProfile] = useState(null);
   const { userId, setUserId, setAuthToken } = useContext(UserContext);
@@ -29,17 +21,31 @@ export default Profile = ({ route, navigation }) => {
   const profileId = route?.params?.profileId ?? userId;
 
   useEffect(() => {
-    axios
-      .get(`https://codeitsuisse-mcspicy.herokuapp.com/getDetails/${profileId}`)
-      .then((res) => {
-        setProfile(res.data[0]);
-      })
-      .catch((err) => console.log('Error fetching profile', err));
-  }, []);
+    const unsuscribe = navigation.addListener('focus', () => {
+      axios
+        .get(
+          `https://codeitsuisse-mcspicy.herokuapp.com/getDetails/${profileId}`,
+        )
+        .then((res) => {
+          setProfile(res.data[0]);
+        })
+        .catch((err) => console.log('Error fetching profile', err));
+    });
+
+    return unsuscribe;
+  }, [navigation]);
 
   const deleteCaseOfficer = () => {
-    // todo
-    return;
+    axios
+      .post('https://codeitsuisse-mcspicy.herokuapp.com/deleteOfficer', {
+        officerID: profile.officerID,
+        officerType: profile.officerType,
+        name: profile.name,
+        organisationName: profile.organisationName,
+        designation: profile.designation,
+      })
+      .then((res) => navigation.goBack())
+      .catch((err) => console.log('Error deleting case officer', err));
   };
 
   return (
@@ -56,7 +62,9 @@ export default Profile = ({ route, navigation }) => {
           <Text style={styles.detailsText}>
             Designation: {profile?.designation}
           </Text>
-          {/* todo: show admin or not */}
+          {profile?.officerType === 'Admin' && (
+            <Text style={styles.detailsText}>Admin</Text>
+          )}
         </View>
 
         {profile && (
@@ -69,39 +77,38 @@ export default Profile = ({ route, navigation }) => {
                 onPress={() => navigation.navigate('ViewAllCaseOfficers')}
               />
             )}
+
+            <Button
+              style={styles.buttonContainer}
+              title="Edit Profile"
+              onPress={() =>
+                navigation.navigate('EditProfile', {
+                  profile: profile,
+                })
+              }
+            />
             {isOwnProfile && (
-              <>
-                <Button
-                  style={styles.buttonContainer}
-                  title="Edit Profile"
-                  onPress={() =>
-                    navigation.navigate('EditProfile', {
-                      profile: profile,
-                    })
-                  }
-                />
-                <Button
-                  style={styles.buttonContainer}
-                  title="Logout"
-                  onPress={() =>
-                    Alert.alert('Logout', 'Are you sure you want to logout?', [
-                      {
-                        text: 'Cancel',
-                        style: 'cancel',
+              <Button
+                style={styles.buttonContainer}
+                title="Logout"
+                onPress={() =>
+                  Alert.alert('Logout', 'Are you sure you want to logout?', [
+                    {
+                      text: 'Cancel',
+                      style: 'cancel',
+                    },
+                    {
+                      text: 'Yes',
+                      onPress: () => {
+                        setUserId(null);
+                        setAuthToken(null);
                       },
-                      {
-                        text: 'Yes',
-                        onPress: () => {
-                          setUserId(null);
-                          setAuthToken(null);
-                        },
-                      },
-                    ])
-                  }
-                />
-              </>
+                    },
+                  ])
+                }
+              />
             )}
-            {!isOwnProfile && profile.officerType === 'Admin' && (
+            {!isOwnProfile && profile.officerID !== userId && (
               <Button
                 style={styles.buttonContainer}
                 title="Delete Case Officer"

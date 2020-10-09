@@ -16,13 +16,16 @@ export default ViewAllCaseOfficers = ({ navigation }) => {
   const [officers, setOfficers] = useState([]);
 
   useEffect(() => {
-    axios
-      .get('https://codeitsuisse-mcspicy.herokuapp.com/getAllOfficers')
-      .then((res) => {
-        console.log(res);
-        setOfficers(res.data);
-      })
-      .catch((err) => console.log('Error fetching profiles', err));
+    const unsuscribe = navigation.addListener('focus', () => {
+      axios
+        .get('https://codeitsuisse-mcspicy.herokuapp.com/getAllOfficers')
+        .then((res) => {
+          setOfficers(res.data);
+        })
+        .catch((err) => console.log('Error fetching profiles', err));
+    });
+
+    return unsuscribe;
   }, []);
 
   const officerItemOnPress = (profileId) => {

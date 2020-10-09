@@ -26,7 +26,6 @@ export default EditProfile = ({ route, navigation }) => {
     axios
       .post('https://codeitsuisse-mcspicy.herokuapp.com/updateOfficerDetails', {
         officerID: profile.officerID,
-        // password: 'password',
         officerType: profile.officerType,
         name,
         organisationName,
