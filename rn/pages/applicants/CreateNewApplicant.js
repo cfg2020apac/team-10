@@ -15,7 +15,7 @@ import { Button, Input, Image} from 'react-native-elements';
 
 import { UserContext } from '../../util/UserProvider';
 
-export default CreateNewApplicant = () => {
+export default CreateNewApplicant = ({ navigation }) => {
 
   const [applicantName, setApplicantName] = useState('');
   const [applicantID, setApplicantID] = useState('');
