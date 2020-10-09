@@ -10,6 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { Button, Input } from 'react-native-elements';
+import axios from 'axios';
 
 import { UserContext } from '../../util/UserProvider';
 
@@ -30,7 +31,18 @@ export default Login = ({ navigation }) => {
       Alert.alert('Password cannot be empty!');
     }
 
-    // todo
+    axios
+      .post('https://codeitsuisse-mcspicy.herokuapp.com/login', {
+        officerID: username,
+        password,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+        Alert.alert('Error login in', err);
+      });
   };
 
   return (

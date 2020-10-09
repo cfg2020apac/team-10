@@ -34,7 +34,7 @@ export default Signup = () => {
       .post('https://codeitsuisse-mcspicy.herokuapp.com/createUser', {
         officerID: username,
         password,
-        officerType,
+        officerType: isAdmin ? 'Admin' : 'Normal',
         name,
         organisationName,
         designation,
@@ -76,7 +76,12 @@ export default Signup = () => {
           onChangeText={setDesignation}
         />
 
-        <CheckBox center title="Admin" checked={isAdmin} />
+        <CheckBox
+          center
+          title="Admin"
+          checked={isAdmin}
+          onPress={() => setIsAdmin(!isAdmin)}
+        />
 
         <Button
           style={styles.buttonContainer}
