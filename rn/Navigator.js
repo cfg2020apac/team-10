@@ -114,6 +114,7 @@ function CaseOfficersStackScreen() {
       <CaseOfficersStack.Screen
         name="ViewAllCaseOfficers"
         component={ViewAllCaseOfficers}
+        options={{ title: 'Case Officers' }}
       />
     </CaseOfficersStack.Navigator>
   );
