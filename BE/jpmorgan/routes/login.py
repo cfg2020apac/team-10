@@ -56,15 +56,17 @@ def create_user():
     else:
         details = request.get_data()
     print(details)
+    message = "Failed creation, please try again"
+
     try:
         newUser = Officer(details['officerID'],generate_password_hash(details['password']), details['officerType'], details['name'], details['organisationName'], details['designation'])
         db.session.add(newUser)
         db.session.commit()
+        message = "Creation success"
     except:
         db.session.rollback()
-        print("User created already...")
 
-    return "done"
+    return jsonify({"message":message})
 
 @app.route('/login', methods=['POST'])
 def login_user():
@@ -73,17 +75,12 @@ def login_user():
     else:
         details = request.get_data()
     # print(details)
+    message = "Failed authentication, please try again"
     user = Officer.query.filter_by(officerID=details['officerID']).first()
     if(check_password_hash(user.password,details['password'])):
-        print("authenticated")
-    return "done"
+        message = "Authentication success"
+    return jsonify({"message":message})
     # if check_password_hash(user.password,details['password']):
     #     print("Authenticated")
-
-
-
-
-
-
 
 
