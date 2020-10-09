@@ -14,18 +14,49 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 
-class Officer(db.Model):
-    __tablename__ = "officer"
+class Applicant(db.Model):
+    __tablename__ = "applicant"
 
-    officerID = db.Column(db.String(45), primary_key=True)
-    password = db.Column(db.String(45), nullable=False)
+    name = db.Column(db.String(100), primary_key=True)
+    applicantID = db.Column(db.String(45), primary_key=True)
+    status = db.Column(db.String(45), nullable=False)
+    progress = db.Column(db.String(45), nullable=False)
+    officerID = db.Column(db.String(45), nullable=False)
+    thirdPartyID = db.Column(db.String(45), nullable=False)
 
-    def __init__(self, officerID, password):
+    def __init__(self, name, applicantID, status, progress, officerID, thirdPartyID):
+        self.name = name
+        self.applicantID = applicantID
+        self.status = status
+        self.progress = progress
         self.officerID = officerID
-        self.password = password
+        self.thirdPartyID = thirdPartyID
     
     def json(self):
-        return{"officerID": self.officerID, "password": self.password}
+        return{"name": self.name, "applicantID": self.applicantID, "status": self.status, "progress": self.progress, "officerID": self.officerID, "thirdPartyID": self.thirdPartyID}
+
+@app.route("/", methods=["GET"])
+def get_all_applicants():
+    all_applicants = Applicant.query.all()
+    return render_template("index.html", all_applicants=all_applicants)
+
+@app.route("/", methods=["POST"])
+def create_new_applicant():
+    name = request.form['addName'].strip().capitalize()
+    officerID = request.form['addOfficer']
+    applicantID = name[0:3] + "123"
+    status = "Admission"
+    progress = "Pending"
+    thirdPartyID = "Not assigned"
+    
+    applicant = Applicant.query.filter_by(name=name).first()
+    if not applicant:
+        add_applicant = Applicant(name=name, officerID=officerID, applicantID=applicantID, status=status, progress=progress, thirdPartyID=thirdPartyID)
+        db.session.add(add_user)
+        db.session.commit()
+    else: 
+        message = jsonify({"message": "User email already existed. Please go back and try again"})
+        return message
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
