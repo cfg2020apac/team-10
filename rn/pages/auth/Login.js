@@ -7,6 +7,7 @@ import {
   Text,
   StatusBar,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 
@@ -20,6 +21,18 @@ export default Login = ({ navigation }) => {
 
   const navigateToSignup = () => navigation.navigate('Signup');
 
+  const login = () => {
+    if (!username) {
+      Alert.alert('Username cannot be empty!');
+    }
+
+    if (!password) {
+      Alert.alert('Password cannot be empty!');
+    }
+
+    // todo
+  };
+
   return (
     <SafeAreaView>
       <KeyboardAvoidingView style={styles.container}>
@@ -31,11 +44,7 @@ export default Login = ({ navigation }) => {
           secureTextEntry
         />
 
-        <Button
-          style={styles.buttonContainer}
-          title="Login"
-          onPress={() => {}}
-        />
+        <Button style={styles.buttonContainer} title="Login" onPress={login} />
         <Button
           style={styles.buttonContainer}
           title="Don't have an account? Signup"

@@ -7,6 +7,7 @@ import {
   Text,
   StatusBar,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 
@@ -14,6 +15,18 @@ export default Signup = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  const signup = () => {
+    if (!username || !password || !confirmPassword) {
+      Alert.alert('All fields must be entered!');
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert('Password does not match!');
+    }
+
+    // todo
+  };
 
   return (
     <SafeAreaView>
@@ -35,7 +48,7 @@ export default Signup = () => {
         <Button
           style={styles.buttonContainer}
           title="Signup"
-          onPress={() => {}}
+          onPress={signup}
         />
       </KeyboardAvoidingView>
     </SafeAreaView>
