@@ -9,51 +9,46 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { Button, Input } from 'react-native-elements';
-import Icon from 'react-native-vector-icons';
 
 import { UserContext } from '../../util/UserProvider';
 
-export default Login = () => {
+export default Login = ({ navigation }) => {
   const { setAuthToken } = useContext(UserContext);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigateToSignup = () => navigation.navigate('Signup');
+
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <KeyboardAvoidingView style={styles.container}>
-          <Input
-            label={'Username'}
-            value={username}
-            onChangeText={setUsername}
-          />
-          <Input
-            label={'Password'}
-            value={password}
-            onChangeText={setPassword}
-          />
+    <SafeAreaView>
+      <KeyboardAvoidingView style={styles.container}>
+        <Input label={'Username'} value={username} onChangeText={setUsername} />
+        <Input
+          label={'Password'}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
 
-          <Button
-            style={styles.buttonContainer}
-            title="Login"
-            onPress={() => {}}
-          />
-          <Button
-            style={styles.buttonContainer}
-            title="Don't have an account? Signup"
-            onPress={() => {}}
-          />
+        <Button
+          style={styles.buttonContainer}
+          title="Login"
+          onPress={() => {}}
+        />
+        <Button
+          style={styles.buttonContainer}
+          title="Don't have an account? Signup"
+          onPress={navigateToSignup}
+        />
 
-          <Button
-            title="fake login"
-            onPress={() => setAuthToken('fake token')}
-            style={styles.buttonContainer}
-          />
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </>
+        <Button
+          title="fake login"
+          onPress={() => setAuthToken('fake token')}
+          style={styles.buttonContainer}
+        />
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
