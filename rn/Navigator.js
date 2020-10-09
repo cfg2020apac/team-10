@@ -86,32 +86,7 @@ function CaseOfficersStackScreen() {
 
   return (
     <CaseOfficersStack.Navigator>
-      <CaseOfficersStack.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          headerRight: () => (
-            <Button
-              onPress={() =>
-                Alert.alert('Logout', 'Are you sure you want to logout?', [
-                  {
-                    text: 'Cancel',
-                    style: 'cancel',
-                  },
-                  {
-                    text: 'Yes',
-                    onPress: () => {
-                      setUserId(null);
-                      setAuthToken(null);
-                    },
-                  },
-                ])
-              }
-              title="Logout"
-            />
-          ),
-        }}
-      />
+      <CaseOfficersStack.Screen name="Profile" component={Profile} />
       <CaseOfficersStack.Screen name="EditProfile" component={EditProfile} />
       <CaseOfficersStack.Screen
         name="ViewAllCaseOfficers"
@@ -147,7 +122,6 @@ const Navigator = () => {
                 Profile: 'user',
               };
 
-              // You can return any component that you like here!
               return (
                 <Icon
                   type="font-awesome"
