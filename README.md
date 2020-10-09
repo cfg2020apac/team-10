@@ -2,6 +2,7 @@
 
 To run the app (inside frontend dir `./rn/`):
 
+In frontend directory (./rn)
 - `npm install` (you need NodeJS installed)
 - `npx pod-install ios`
 - `npx react-native run-ios` to start the iOS app (you need to have the Simulator app installed on MacOS)
