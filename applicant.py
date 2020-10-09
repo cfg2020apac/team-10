@@ -48,7 +48,7 @@ def create_new_applicant():
     status = "Admission"
     progress = "Pending"
     thirdPartyID = "Not assigned"
-    
+
     applicant = Applicant.query.filter_by(name=name).first()
     if not applicant:
         add_applicant = Applicant(name=name, officerID=officerID, applicantID=applicantID, status=status, progress=progress, thirdPartyID=thirdPartyID)
@@ -57,6 +57,38 @@ def create_new_applicant():
     else: 
         message = jsonify({"message": "User email already existed. Please go back and try again"})
         return message
+    return render_template("index.html")
+
+@app.route("/", methods=["POST"])
+def update_applicant():
+    if request.method == "POST":
+        applicantID = request.form['updateApplicantID']
+        name = request.form['updateName'].strip().capitalize()
+        status = request.form['updateStatus'].strip().capitalize()
+        progress = request.form['updateProgress'].strip().lower()
+        officerID = request.form['updateOfficerID']
+        thirdPartyID = request.form['updateThirdPartyID']
+
+        applicant = Applicant.query.filter_by(name=name).first()
+        if not applicant:
+            applicantUpdate = Applicant.query.filter_by(name=name).first()
+            applicantUpdate.name = name
+            applicantUpdate.applicantID = applicantID
+            applicantUpdate.status = status
+            applicantUpdate.progress = progress
+            applicantUpdate.officerID = officerID
+            applicantUpdate.thirdPartyID = thirdPartyID      
+            db.session.commit()
+        else:
+            message = jsonify({"message": "User email already existed. Please go back and try again"})
+            return message
+    return render_template("index.html")
+
+@app.route("/delete_applicant/<string:applicantID>")
+def delete_applicant(applicantID):
+    Applicant.query.filter_by(applicantID=applicantID).delete()
+    db.session.commit()
+    return redirect(request.referrer)
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
