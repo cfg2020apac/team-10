@@ -40,11 +40,12 @@ export default Signup = () => {
         designation,
       })
       .then((res) => {
-        console.log(res);
+        const { data } = res;
+        setUserId(username);
+        setAuthToken(data.token);
       })
       .catch((err) => {
-        console.error(err);
-        Alert.alert('Error signing up user', err);
+        console.log('Error signing up', err);
       });
   };
 
