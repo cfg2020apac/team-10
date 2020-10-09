@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext} from 'react';
 import axios from 'axios'; //need to install axios?
 import {
   SafeAreaView,
@@ -6,8 +6,12 @@ import {
   ScrollView,
   View,
   Text,
-  StatusBar, Button
+  StatusBar,
+  Alert
 } from 'react-native';
+import { UserContext } from '../../util/UserProvider';
+
+import {Input, Button} from 'react-native-elements';
 
 /*
 *************************************** CREATE NEW ACTVITY ***************************************
@@ -16,7 +20,11 @@ import {
 * 
 ***************************************************************************************************
 */
-export default CreateActivity = () => {
+export default CreateActivity = ({route, navigation}) => {
+
+  const { userId, setUserId, setAuthToken } = useContext(UserContext);
+
+  const profileId = route?.params?.profileId ?? userId;
 
   const [activity, setActivity] = useState("");
 
@@ -36,7 +44,7 @@ export default CreateActivity = () => {
     activityName: activityName,
     description: description,
     status: status,
-    caseOfficer: caseOfficer,
+    caseOfficer: profileId,
     applicant: applicant,
     comments: comments,
   }
@@ -44,8 +52,9 @@ export default CreateActivity = () => {
   // Case Officer Id should be stored globally?
 
   const createNewActivity = (e) => {
+    console.log(newActivity)
     axios
-      .post()
+      .post("https://codeitsuisse-mcspicy.herokuapp.com/createActivity", newActivity)
       .then((res) => {
         console.log(res.data);
         setSuccessMessage(res.data);
@@ -58,9 +67,10 @@ export default CreateActivity = () => {
       })
       .catch((error) => {
         console.log(error.response.data);
-        let newErrorMessages = [...errorMessages, err.response.data];
-        setErrorMessages(newErrorMessages);
-        setShowErrorAlert(true);
+        Alert.alert('Error encountered when creating activity!')
+        // let newErrorMessages = [...errorMessages, err.response.data];
+        // setErrorMessages(newErrorMessages);
+        // setShowErrorAlert(true);
       });
   }
 
@@ -72,27 +82,45 @@ export default CreateActivity = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView>
-          <Text>TODO</Text>
-          <InputText
+          {/* <Text h1>Create New Activity</Text> */}
+          <Input
             placeholder='Activity Name'
             required
-            onChange={(e) => { setActivityName(e.target.value) }}
-            errorStyle={{ color: 'red' }}
-            errorMessage='Enter a valid name'
+            label="Enter Name"
+            onChangeText={setActivityName}
+            // errorStyle={{ color: 'red' }}
+            // errorMessage='Enter a valid name'
           />
-          <InputText
-            placeholder='Description'
-            onChange={(e) => { setDescription(e.target.value) }}
-            errorStyle={{ color: 'red' }}
-            errorMessage='Enter a valid name'
+          <Input
+            label="Description"
+            placeholder='Enter Description'
+            onChangeText={setDescription}
+            // errorStyle={{ color: 'red' }}
+            // errorMessage='Enter a valid description'
+          />
+          <Input
+            label="Applicant ID"
+            placeholder="Enter Applicant ID"
+            onChangeText={setApplicant}
           />
           <Button
+            style={styles.buttonContainer}
             title="Create Activity"
-            type="submit"
-            onClick={()=> console.log("Create Activity")}
-          >Create Activity</Button>
+            type="solid"
+            onPress={() => createNewActivity()}
+          />
         </ScrollView>
       </SafeAreaView>
     </>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    margin: 6,
+  },
+});
