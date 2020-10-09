@@ -11,15 +11,14 @@ from jpmorgan import app;
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'dtan342@gmail.com'
-app.config['MAIL_PASSWORD'] = 'Constiislyf3#'
+app.config['MAIL_USERNAME'] = 'copyforgoodt10@gmail.com'
+app.config['MAIL_PASSWORD'] = 'CopyforgoodT10'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
 
 @app.route("/acknowledgement/<string:emailAddress>",methods=["POST"])
 def send_email(emailAddress):
-    print("LASDA")
     if request.is_json:
         content = request.get_json()
     else:
