@@ -7,8 +7,10 @@ import {
   Text,
   StatusBar,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import { Button, Input } from 'react-native-elements';
+import axios from 'axios';
 
 import { UserContext } from '../../util/UserProvider';
 
@@ -19,6 +21,29 @@ export default Login = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const navigateToSignup = () => navigation.navigate('Signup');
+
+  const login = () => {
+    if (!username) {
+      Alert.alert('Username cannot be empty!');
+    }
+
+    if (!password) {
+      Alert.alert('Password cannot be empty!');
+    }
+
+    axios
+      .post('https://codeitsuisse-mcspicy.herokuapp.com/login', {
+        officerID: username,
+        password,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+        Alert.alert('Error login in', err);
+      });
+  };
 
   return (
     <SafeAreaView>
@@ -31,11 +56,7 @@ export default Login = ({ navigation }) => {
           secureTextEntry
         />
 
-        <Button
-          style={styles.buttonContainer}
-          title="Login"
-          onPress={() => {}}
-        />
+        <Button style={styles.buttonContainer} title="Login" onPress={login} />
         <Button
           style={styles.buttonContainer}
           title="Don't have an account? Signup"
