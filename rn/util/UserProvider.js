@@ -7,12 +7,14 @@ function UserProvider(props) {
   const [userId, setUserId] = useState(null);
   const [authToken, setAuthToken] = useState(null);
 
-  useEffect(async () => {
-    const storageUserId = await AsyncStorage.getItem('userId');
-    const storageAuthToken = await AsyncStorage.getItem('authToken');
+  useEffect(() => {
+    (async () => {
+      const storageUserId = await AsyncStorage.getItem('userId');
+      const storageAuthToken = await AsyncStorage.getItem('authToken');
 
-    setUserId(storageUserId);
-    setAuthToken(storageAuthToken);
+      setUserId(storageUserId);
+      setAuthToken(storageAuthToken);
+    })();
   }, []);
 
   return (

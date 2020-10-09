@@ -82,8 +82,6 @@ function ActivityStackScreen() {
 const CaseOfficersStack = createStackNavigator();
 
 function CaseOfficersStackScreen() {
-  const { setUserId, setAuthToken } = useContext(UserContext);
-
   return (
     <CaseOfficersStack.Navigator>
       <CaseOfficersStack.Screen name="Profile" component={Profile} />
