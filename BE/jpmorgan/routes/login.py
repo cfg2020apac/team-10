@@ -31,13 +31,21 @@ class Officer(db.Model):
     __tablename__ = 'officer'
     officerID = db.Column(db.String(45), primary_key=True)
     password = db.Column(db.String(99),nullable=False)
+    officerType = db.Column(db.String(45))
+    name = db.Column(db.String(45))
+    organisationName = db.Column(db.String(45))
+    designation = db.Column(db.String(45))
 
-    def __init__(self, officerID, password):
+    def __init__(self, officerID, password, officerType, name, organisationName, designation):
         self.officerID = officerID
         self.password = password
+        self.officerType = officerType
+        self.name = name
+        self.organisationName = organisationName
+        self.designation = designation
 
     def json(self):
-        return {"officerID": self.officerID, "password": self.password}
+        return {"officerID": self.officerID, "officerType": self.officerType, "name": self.name, "organisationName": self.organisationName, "designation":self.designation }
 
 
 #checkout trip for payment - step 2: invoke paypal API with tripdetails 
@@ -49,8 +57,7 @@ def create_user():
         details = request.get_data()
     print(details)
     try:
-        
-        newUser = Officer(details['officerID'],generate_password_hash(details['password']))
+        newUser = Officer(details['officerID'],generate_password_hash(details['password']), details['officerType'], details['name'], details['organisationName'], details['designation'])
         db.session.add(newUser)
         db.session.commit()
     except:
