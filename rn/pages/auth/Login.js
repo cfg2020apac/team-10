@@ -43,6 +43,7 @@ export default Login = ({ navigation }) => {
       })
       .catch((err) => {
         console.log('Error login in', err);
+        Alert.alert('Wrong username/password');
       });
   };
 
