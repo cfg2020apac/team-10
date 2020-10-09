@@ -9,9 +9,6 @@ import {
   StatusBar, Button
 } from 'react-native';
 
-const useStyles = makeStyles((theme) => ({
-
-}))
 /*
 *************************************** CREATE NEW ACTVITY ***************************************
 * This code is to create new activity by the case officer. 
@@ -21,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 */
 export default CreateActivity = () => {
 
-  const classes = useStyles();
   const [activity, setActivity] = useState("");
 
   const [activityName, setActivityName] = useState("");
@@ -29,7 +25,7 @@ export default CreateActivity = () => {
   const [status, setStatus] = useState(""); //This should be set in the backend
   const [caseOfficer, setCaseOfficer] = useState("")
   const [applicant, setApplicant] = useState("");
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState([]);
 
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -42,6 +38,7 @@ export default CreateActivity = () => {
     status: status,
     caseOfficer: caseOfficer,
     applicant: applicant,
+    comments: comments,
   }
   // Do I need to search for the case applicant? 
   // Case Officer Id should be stored globally?
@@ -92,7 +89,7 @@ export default CreateActivity = () => {
           <Button
             title="Create Activity"
             type="submit"
-            onClick={}
+            onClick={()=> console.log("Create Activity")}
           >Create Activity</Button>
         </ScrollView>
       </SafeAreaView>
