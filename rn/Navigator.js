@@ -96,7 +96,6 @@ const AuthStack = createStackNavigator();
 
 const Navigator = () => {
   const { authToken } = useContext(UserContext);
-  console.log(authToken);
 
   return (
     <NavigationContainer>
