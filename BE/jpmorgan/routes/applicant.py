@@ -59,10 +59,10 @@ def create_new_applicant():
 
     name = details['addName'].strip().capitalize()
     officerID = details['addOfficer']
+    thirdPartyID = details['addThirdParty']
     applicantID = name[0:3] + "123"
     status = "Admission"
     progress = "Pending"
-    thirdPartyID = "Not assigned"
     message = ""
     applicant = Applicant.query.filter_by(name=name).first()
     if not applicant:
