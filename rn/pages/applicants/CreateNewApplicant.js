@@ -6,7 +6,12 @@ import {
   View,
   Text,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
+
+import { Button, Input, Image} from 'react-native-elements';
+
+import { UserContext } from '../../util/UserProvider';
 
 export default CreateNewApplicant = () => {
   return (
