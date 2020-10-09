@@ -12,13 +12,29 @@ import {
 import { Button, Input, CheckBox } from 'react-native-elements';
 import axios from 'axios';
 
-export default EditProfile = () => {
-  const [name, setName] = useState('');
-  const [organisationName, setOrganisationName] = useState('');
-  const [designation, setDesignation] = useState('');
+export default EditProfile = ({ route, navigation }) => {
+  const profile = route.params.profile;
+
+  const [name, setName] = useState(profile.name);
+  const [organisationName, setOrganisationName] = useState(
+    profile.organisationName,
+  );
+  const [designation, setDesignation] = useState(profile.designation);
 
   const doneEditing = () => {
-    // todo
+    console.log(profile);
+    axios
+      .post('https://codeitsuisse-mcspicy.herokuapp.com/updateOfficerDetails', {
+        officerID: profile.officerID,
+        officerType: profile.officerType,
+        name,
+        organisationName,
+        designation,
+      })
+      .then((res) => {
+        navigation.goBack();
+      })
+      .catch((err) => console.log('Error updating profile', err));
   };
 
   return (

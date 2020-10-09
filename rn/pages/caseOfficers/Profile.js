@@ -9,30 +9,44 @@ import {
   Alert,
 } from 'react-native';
 import { Button } from 'react-native-elements';
+import axios from 'axios';
 
 import { UserContext } from '../../util/UserProvider';
 
-/*
-{"officerID": "Danieltan123465", 
-"password": "holyCrap", 
-"officerType": "Admin", 
-"name": "Daniel Tan Tan",
- "organisationName": "New hope", 
- "designation":"MR" }
-*/
-export default Profile = ({ navigation }) => {
+export default Profile = ({ route, navigation }) => {
   const [profile, setProfile] = useState(null);
-  const { setUserId, setAuthToken } = useContext(UserContext);
+  const { userId, setUserId, setAuthToken } = useContext(UserContext);
+
+  const isOwnProfile = route?.params?.isOwnProfile ?? true;
+  const profileId = route?.params?.profileId ?? userId;
 
   useEffect(() => {
-    if (profile == null) {
-      // todo get from user context
-      // setProfile();
-    } else {
-      const profId = props.profId;
-      // todo fetch from api
-    }
-  }, []);
+    const unsuscribe = navigation.addListener('focus', () => {
+      axios
+        .get(
+          `https://codeitsuisse-mcspicy.herokuapp.com/getDetails/${profileId}`,
+        )
+        .then((res) => {
+          setProfile(res.data[0]);
+        })
+        .catch((err) => console.log('Error fetching profile', err));
+    });
+
+    return unsuscribe;
+  }, [navigation]);
+
+  const deleteCaseOfficer = () => {
+    axios
+      .post('https://codeitsuisse-mcspicy.herokuapp.com/deleteOfficer', {
+        officerID: profile.officerID,
+        officerType: profile.officerType,
+        name: profile.name,
+        organisationName: profile.organisationName,
+        designation: profile.designation,
+      })
+      .then((res) => navigation.goBack())
+      .catch((err) => console.log('Error deleting case officer', err));
+  };
 
   return (
     <SafeAreaView>
@@ -46,42 +60,78 @@ export default Profile = ({ navigation }) => {
             Organisation: {profile?.organisationName}
           </Text>
           <Text style={styles.detailsText}>
-            Designation: {profile?.desgination}
+            Designation: {profile?.designation}
           </Text>
-          {/* todo: show admin or not */}
+          {profile?.officerType === 'Admin' && (
+            <Text style={styles.detailsText}>Admin</Text>
+          )}
         </View>
 
-        <View>
-          <Button
-            style={styles.buttonContainer}
-            title="Case Officers List"
-            onPress={() => navigation.navigate('ViewAllCaseOfficers')}
-          />
-          <Button
-            style={styles.buttonContainer}
-            title="Edit Profile"
-            onPress={() => navigation.navigate('EditProfile')}
-          />
-          <Button
-            style={styles.buttonContainer}
-            title="Logout"
-            onPress={() =>
-              Alert.alert('Logout', 'Are you sure you want to logout?', [
-                {
-                  text: 'Cancel',
-                  style: 'cancel',
-                },
-                {
-                  text: 'Yes',
-                  onPress: () => {
-                    setUserId(null);
-                    setAuthToken(null);
-                  },
-                },
-              ])
-            }
-          />
-        </View>
+        {profile && (
+          <View>
+            {/* {isOwnProfile && profile.officerType === 'Admin' && ( */}
+            {isOwnProfile && (
+              <Button
+                style={styles.buttonContainer}
+                title="Case Officers List"
+                onPress={() => navigation.navigate('ViewAllCaseOfficers')}
+              />
+            )}
+
+            <Button
+              style={styles.buttonContainer}
+              title="Edit Profile"
+              onPress={() =>
+                navigation.navigate('EditProfile', {
+                  profile: profile,
+                })
+              }
+            />
+            {isOwnProfile && (
+              <Button
+                style={styles.buttonContainer}
+                title="Logout"
+                onPress={() =>
+                  Alert.alert('Logout', 'Are you sure you want to logout?', [
+                    {
+                      text: 'Cancel',
+                      style: 'cancel',
+                    },
+                    {
+                      text: 'Yes',
+                      onPress: () => {
+                        setUserId(null);
+                        setAuthToken(null);
+                      },
+                    },
+                  ])
+                }
+              />
+            )}
+            {!isOwnProfile && profile.officerID !== userId && (
+              <Button
+                style={styles.buttonContainer}
+                title="Delete Case Officer"
+                onPress={() =>
+                  Alert.alert(
+                    'Deleting Case Officer',
+                    `Are you sure you want to delete Case Officer ${profileId}?`,
+                    [
+                      {
+                        text: 'Cancel',
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Yes',
+                        onPress: deleteCaseOfficer,
+                      },
+                    ],
+                  )
+                }
+              />
+            )}
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
