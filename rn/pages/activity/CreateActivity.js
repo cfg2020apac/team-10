@@ -29,6 +29,7 @@ export default CreateActivity = () => {
   const [status, setStatus] = useState(""); //This should be set in the backend
   const [caseOfficer, setCaseOfficer] = useState("")
   const [applicant, setApplicant] = useState("");
+  const [comments, setComments] = useState([])
 
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
