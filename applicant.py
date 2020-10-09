@@ -40,7 +40,7 @@ def get_all_applicants():
     all_applicants = Applicant.query.all()
     return render_template("index.html", all_applicants=all_applicants)
 
-@app.route("/", methods=["POST"])
+@app.route("/addApplicant", methods=["POST"])
 def create_new_applicant():
     name = request.form['addName'].strip().capitalize()
     officerID = request.form['addOfficer']
@@ -55,7 +55,7 @@ def create_new_applicant():
         db.session.add(add_user)
         db.session.commit()
     else: 
-        message = jsonify({"message": "User email already existed. Please go back and try again"})
+        message = jsonify({"message": "Applicant already existed. Please go back and try again"})
         return message
     return render_template("index.html")
 
