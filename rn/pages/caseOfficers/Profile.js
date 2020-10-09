@@ -10,13 +10,10 @@ import {
 
 export default Profile = () => {
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView>
-          <Text>TODO</Text>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <SafeAreaView>
+      <ScrollView>
+        <Text>TODO</Text>
+      </ScrollView>
+    </SafeAreaView>
   );
 };

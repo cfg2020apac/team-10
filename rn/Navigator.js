@@ -6,6 +6,8 @@ import {
   View,
   Text,
   StatusBar,
+  Button,
+  Alert,
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -78,9 +80,36 @@ function ActivityStackScreen() {
 const CaseOfficersStack = createStackNavigator();
 
 function CaseOfficersStackScreen() {
+  const { setUserId, setAuthToken } = useContext(UserContext);
+
   return (
     <CaseOfficersStack.Navigator>
-      <CaseOfficersStack.Screen name="Profile" component={Profile} />
+      <CaseOfficersStack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerRight: () => (
+            <Button
+              onPress={() =>
+                Alert.alert('Logout', 'Are you sure you want to logout?', [
+                  {
+                    text: 'Cancel',
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'Yes',
+                    onPress: () => {
+                      setUserId(null);
+                      setAuthToken(null);
+                    },
+                  },
+                ])
+              }
+              title="Logout"
+            />
+          ),
+        }}
+      />
       <CaseOfficersStack.Screen name="EditProfile" component={EditProfile} />
       <CaseOfficersStack.Screen
         name="ViewAllCaseOfficers"
