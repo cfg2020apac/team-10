@@ -15,7 +15,7 @@ import axios from 'axios';
 import { UserContext } from '../../util/UserProvider';
 
 export default Login = ({ navigation }) => {
-  const { setAuthToken } = useContext(UserContext);
+  const { setUserId, setAuthToken } = useContext(UserContext);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -37,11 +37,13 @@ export default Login = ({ navigation }) => {
         password,
       })
       .then((res) => {
-        console.log(res);
+        const { data } = res;
+        setUserId(username);
+        setAuthToken(data.token);
       })
       .catch((err) => {
-        console.error(err);
-        Alert.alert('Error login in', err);
+        console.log('Error login in', err);
+        Alert.alert('Wrong username/password');
       });
   };
 
