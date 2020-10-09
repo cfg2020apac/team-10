@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from 'react-native';
-import { Button, Input } from 'react-native-elements';
+import { Button, Input, Image } from 'react-native-elements';
 import axios from 'axios';
 
 import { UserContext } from '../../util/UserProvider';
@@ -48,15 +48,31 @@ export default Login = ({ navigation }) => {
   return (
     <SafeAreaView>
       <KeyboardAvoidingView style={styles.container}>
-        <Input label={'Username'} value={username} onChangeText={setUsername} />
+        <Image  source={require('../../img/login.png')}
+                    style={{ width: 120, 
+                            height: 120,  
+                            marginTop: 100,
+                            marginHorizontal: 145}}
+        />
+        <Input 
+          placeholder='Username' 
+          value={username} 
+          containerStyle={{marginTop:40}}
+          inputContainerStyle={{marginHorizontal:20}}
+          onChangeText={setUsername} />
         <Input
-          label={'Password'}
+          placeholder='Password'
           value={password}
           onChangeText={setPassword}
+          containerStyle={{marginBottom:40}}
+          inputContainerStyle={{marginHorizontal:20}}
           secureTextEntry
         />
 
-        <Button style={styles.buttonContainer} title="Login" onPress={login} />
+        <Button 
+          style={styles.buttonContainer} 
+          title="Login" 
+          onPress={login} />
         <Button
           style={styles.buttonContainer}
           title="Don't have an account? Signup"
@@ -81,5 +97,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     margin: 6,
+    marginHorizontal: 20,
+    width:380
   },
 });
