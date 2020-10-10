@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom'; import {
   TextInput
 } from 'react-native';
 import { Button, Input, Card, Overlay, Text } from 'react-native-elements';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default ViewActivityDetails = ({ route, navigation }) => {
 
@@ -155,7 +156,29 @@ export default ViewActivityDetails = ({ route, navigation }) => {
                 onChangeText={setDescription}
               >
               </Input>
-              <Input
+              <Text style={styles.container}>Status</Text>
+              <DropDownPicker
+                //disabled
+                zIndex={4000}
+                placeholder="Current Progress"
+                items={[
+                  { label: 'Pending', value: 'Pending' },
+                  { label: 'On-going', value: 'On-going' },
+                  { label: 'Completed', value: 'Completed' }
+                ]}
+                // containerStyle={{ height: 40, margin: 20 }}
+                style={styles.container}
+                // itemStyle={{
+                //   justifyContent: 'flex-start'
+                // }}
+                dropDownStyle={{ backgroundColor: '#fafafa' }}
+              /*
+              onChangeItem={item => this.setState({
+                  // TODO
+              })}
+              */
+              />
+              {/* <Input
                 // disabled={updateMode}
                 label="Status"
                 multiline={true}
@@ -163,7 +186,7 @@ export default ViewActivityDetails = ({ route, navigation }) => {
                 inputContainerStyle={{ marginHorizontal: 10, marginTop: 20 }}
                 value={status}
                 onChangeText={setStatus}
-              ></Input>
+              ></Input> */}
               <Button
                 style={styles.buttonContainer}
                 title="Save"
@@ -221,8 +244,10 @@ export default ViewActivityDetails = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
+    backgroundColor: '#fafafa',
     justifyContent: 'center',
     alignItems: 'center',
+    margin: 6,
   },
   buttonContainer: {
     margin: 6,

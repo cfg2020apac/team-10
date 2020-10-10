@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import {
@@ -14,6 +14,31 @@ import { Card, Button, SearchBar } from 'react-native-elements';
 export default ViewAllActivities = ({ navigation }) => {
 
   const [activities, setActivities] = useState([]);
+  const [searchedActivities, setSearchedActivities] = useState([]);
+
+  const updateSearch = useCallback(
+    async (e, activities) => {
+      const q = e.target.value;
+
+      if (!q) {
+        setActivities(activities);
+        return;
+      }
+      setSearchedActivities(await search(q, activities));
+    }, []
+  );
+
+  async function search(query, allActivities) {
+    await sleep(500);
+
+    const q = query.toLocaleLowerCase();
+    console.log("search: " + allActivities);
+    return allActivities.filter(l => {
+      const fields = [l.activityName].map(f => f.toLocaleLowerCase());
+      return fields.some(f => f.indexOf(q) >= 0);
+    });
+  }
+
 
   const getActivites = async () => {
     axios
@@ -48,6 +73,8 @@ export default ViewAllActivities = ({ navigation }) => {
         <SearchBar
           placeholder="Find Activity"
           platform="ios"
+          onChange={(e) => {updateSearch(e, activities)}}
+          value={search}
           searchIcon={false}
         />
         <ScrollView>
