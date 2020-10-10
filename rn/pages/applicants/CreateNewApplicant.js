@@ -76,7 +76,7 @@ export default CreateNewApplicant = ({ navigation }) => {
         <Button
           title="Create New Applicant"
           onPress={() => createNewApplicant()}
-          style={{ marginTop: 80, margin: 20 }}
+          style={{ marginTop: 60, margin: 20 }}
         />
 
         <Button

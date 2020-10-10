@@ -40,14 +40,14 @@ export default ViewApplicantProfile = ({ navigation }) => {
 
         <Input
           //disabled
-          placeholder="Applicant Name Place holder"
+          placeholder="Vivian"
           inputContainerStyle={{ marginHorizontal: 10, marginTop: 40 }}
         ></Input>
 
         <DropDownPicker
           //disabled
           zIndex={5000}
-          placeholder="Current Status"
+          placeholder="Assessment"
           items={[
             { label: 'Assessment', value: 'Assessment' },
             {
@@ -84,7 +84,7 @@ export default ViewApplicantProfile = ({ navigation }) => {
         <DropDownPicker
           //disabled
           zIndex={4000}
-          placeholder="Current Progress"
+          placeholder="On-going"
           items={[
             { label: 'Pending', value: 'Pending' },
             { label: 'On-going', value: 'On-going' },
@@ -105,12 +105,12 @@ export default ViewApplicantProfile = ({ navigation }) => {
         <DropDownPicker
           zIndex={3000}
           //disabled
-          placeholder="Current Assigned 3rd-party"
+          placeholder="3rd-party 1"
           items={[
-            { label: '3rd-party 1 place holder', value: '1' },
-            { label: '3rd-party 2 place holder', value: '2' },
-            { label: '3rd-party 3 place holder', value: '3' },
-            { label: '3rd-party 4 place holder', value: '4' },
+            { label: '3rd-party 1', value: '1' },
+            { label: '3rd-party 2', value: '2' },
+            { label: '3rd-party 3', value: '3' },
+            { label: '3rd-party 4', value: '4' },
           ]}
           containerStyle={{ height: 40, marginHorizontal: 20 }}
           style={{ backgroundColor: '#fafafa' }}
