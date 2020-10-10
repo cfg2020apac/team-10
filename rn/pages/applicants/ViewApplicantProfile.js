@@ -12,7 +12,17 @@ import {
 import { Button, Input, Image, Text } from 'react-native-elements';
 import { UserContext } from '../../util/UserProvider';
 
-export default ViewApplicantProfile = ({ route }) => {
+export default ViewApplicantProfile = ({ navigation }) => {
+  const updateApplicantInfo = () => {
+    // todo
+    navigation.goBack();
+  };
+
+  const deleteApplicant = () => {
+    // todo
+    navigation.goBack();
+  };
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -119,13 +129,13 @@ export default ViewApplicantProfile = ({ route }) => {
 
         <Button
           title="Update Applicant Information"
-          onPress={() => updateApplicantInfo('fake token')}
+          onPress={updateApplicantInfo}
           style={{ marginTop: 60, margin: 20 }}
         />
 
         <Button
           title="Delete Applicant"
-          onPress={() => deleteApplicant('fake token')}
+          onPress={deleteApplicant}
           style={{ marginHorizontal: 20 }}
         />
       </ScrollView>
