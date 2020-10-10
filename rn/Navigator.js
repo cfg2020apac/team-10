@@ -12,10 +12,12 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Icon } from 'react-native-elements';
 
 import Todo from './pages/todo/Todo';
 import CreateNewApplicant from './pages/applicants/CreateNewApplicant';
-import ViewApplicantProfile from './pages/applicants/ViewApplicantProfile';
+import VieworUpdateApplicantProfile from './pages/applicants/VieworUpdateApplicantProfile';
 import ViewApplicants from './pages/applicants/ViewApplicants';
 import CreateActivity from './pages/activity/CreateActivity';
 import ViewActivityDetails from './pages/activity/ViewActivityDetails';
@@ -80,36 +82,9 @@ function ActivityStackScreen() {
 const CaseOfficersStack = createStackNavigator();
 
 function CaseOfficersStackScreen() {
-  const { setUserId, setAuthToken } = useContext(UserContext);
-
   return (
     <CaseOfficersStack.Navigator>
-      <CaseOfficersStack.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          headerRight: () => (
-            <Button
-              onPress={() =>
-                Alert.alert('Logout', 'Are you sure you want to logout?', [
-                  {
-                    text: 'Cancel',
-                    style: 'cancel',
-                  },
-                  {
-                    text: 'Yes',
-                    onPress: () => {
-                      setUserId(null);
-                      setAuthToken(null);
-                    },
-                  },
-                ])
-              }
-              title="Logout"
-            />
-          ),
-        }}
-      />
+      <CaseOfficersStack.Screen name="Profile" component={Profile} />
       <CaseOfficersStack.Screen name="EditProfile" component={EditProfile} />
       <CaseOfficersStack.Screen
         name="ViewAllCaseOfficers"
@@ -135,7 +110,27 @@ const Navigator = () => {
           <AuthStack.Screen name="Signup" component={Signup} />
         </AuthStack.Navigator>
       ) : (
-        <Tab.Navigator>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              const iconNames = {
+                Todo: 'list-ul',
+                Applicants: 'users',
+                Activity: 'area-chart',
+                Profile: 'user',
+              };
+
+              return (
+                <Icon
+                  type="font-awesome"
+                  name={iconNames[route.name]}
+                  size={size}
+                  color={color}
+                />
+              );
+            },
+          })}
+        >
           <Tab.Screen name="Todo" component={TodoStackScreen} />
           <Tab.Screen name="Applicants" component={ApplicantsStackScreen} />
           <Tab.Screen name="Activity" component={ActivityStackScreen} />

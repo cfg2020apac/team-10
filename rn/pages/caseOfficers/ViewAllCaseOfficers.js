@@ -1,4 +1,5 @@
-import React from 'react';
+import Axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -9,22 +10,41 @@ import {
 } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
 
-export default ViewAllCaseOfficers = () => {
-  const list = [
-    { name: 'Person 1', organisationName: 'Org 1' },
-    { name: 'Person 2', organisationName: 'Org 2' },
-    { name: 'Person 3', organisationName: 'Org 3' },
-  ];
+import axios from 'axios';
+
+export default ViewAllCaseOfficers = ({ navigation }) => {
+  const [officers, setOfficers] = useState([]);
+
+  useEffect(() => {
+    const unsuscribe = navigation.addListener('focus', () => {
+      axios
+        .get('https://codeitsuisse-mcspicy.herokuapp.com/getAllOfficers')
+        .then((res) => {
+          setOfficers(res.data);
+        })
+        .catch((err) => console.log('Error fetching profiles', err));
+    });
+
+    return unsuscribe;
+  }, []);
+
+  const officerItemOnPress = (profileId) => {
+    navigation.push('Profile', { isOwnProfile: false, profileId });
+  };
 
   return (
     <SafeAreaView>
       <ScrollView>
-        {list.map((item, idx) => (
-          <ListItem key={idx} bottomDivider>
+        {officers.map((item, idx) => (
+          <ListItem
+            key={idx}
+            bottomDivider
+            onPress={() => officerItemOnPress(item.officerID)}
+          >
             <Avatar />
             <ListItem.Content>
-              <ListItem.Title>{item.name}</ListItem.Title>
-              <ListItem.Subtitle>{item.organisationName}</ListItem.Subtitle>
+              <ListItem.Title>{item?.name}</ListItem.Title>
+              <ListItem.Subtitle>{item?.organisationName}</ListItem.Subtitle>
             </ListItem.Content>
           </ListItem>
         ))}

@@ -12,7 +12,11 @@ import {
 import { Button, Input, CheckBox } from 'react-native-elements';
 import axios from 'axios';
 
+import { UserContext } from '../../util/UserProvider';
+
 export default Signup = () => {
+  const { setUserId, setAuthToken } = useContext(UserContext);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -22,8 +26,15 @@ export default Signup = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const signup = () => {
-    if (!username || !password || !confirmPassword) {
-      Alert.alert('Username and password must be entered!');
+    if (
+      !username ||
+      !password ||
+      !confirmPassword ||
+      !name ||
+      !organisationName ||
+      !designation
+    ) {
+      Alert.alert('All fields must be entered!');
     }
 
     if (password !== confirmPassword) {
@@ -40,11 +51,12 @@ export default Signup = () => {
         designation,
       })
       .then((res) => {
-        console.log(res);
+        const { data } = res;
+        setUserId(username);
+        setAuthToken(data.token);
       })
       .catch((err) => {
-        console.error(err);
-        Alert.alert('Error signing up user', err);
+        console.log('Error signing up', err);
       });
   };
 
