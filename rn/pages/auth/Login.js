@@ -82,11 +82,11 @@ export default Login = ({ navigation }) => {
           onPress={navigateToSignup}
         />
 
-        <Button
+        {/* <Button
           title="fake login"
           onPress={() => setAuthToken('fake token')}
           style={styles.buttonContainer}
-        />
+        /> */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
