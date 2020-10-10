@@ -44,10 +44,24 @@ class Applicant(db.Model):
         self.officerID = officerID
         self.thirdPartyID = thirdPartyID
 
-@app.route("/", methods=["GET"])
+    
+
+@app.route("/allApplicants", methods=["GET"])
 def get_all_applicants():
     all_applicants = Applicant.query.all()
-    return render_template("index.html", all_applicants=all_applicants)
+    toReturn = []
+
+    for i in all_applicants:
+        random = {
+            "applicantName" : i.name,
+            "applicantID" : i.applicantID,
+            "status" : i.status,
+            "progress" : i.progress,
+            "officerID" : i.officerID,
+            "thirdPartyID" : i.thirdPartyID
+        }
+        toReturn.append(random)
+    return jsonify(toReturn)
 
 @app.route("/addApplicant", methods=["POST"])
 def create_new_applicant():
@@ -75,18 +89,20 @@ def create_new_applicant():
     return message
 
 #checkout trip for payment - step 2: invoke paypal API with tripdetails 
-@app.route('/updateStatus/<string:applicantID>')
-def update_user(process, applicantID):
-    if request.is_json:
-        details = request.get_json()
-    else:
-        details = request.get_data()
-    print(details)
-
-    user = Applicant.query.filter_by(applicantID=details['applicantID']).first()
+@app.route('/updateProgress/<string:applicantID>')
+def update_user(applicantID):
+    user = Applicant.query.filter_by(applicantID=applicantID).first()
     user.progress="Completed"
     db.session.commit()
     return "done"
+
+@app.route('/updateStatus/<string:applicantID>/<string:newStatus>')
+def update_user_status(applicantID, newStatus):
+    user = Applicant.query.filter_by(applicantID=applicantID).first()
+    user.status=newStatus
+    db.session.commit()
+    return "done"
+
 
 
 

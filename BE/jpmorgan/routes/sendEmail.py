@@ -25,7 +25,7 @@ def send_email(emailAddress):
         content = request.get_data()
     mail = Mail(app)
     msg = Message('Hello', sender = '', recipients = [''])
-    msg.body = "Hello Flask message sent from Flask-Mail"
+    msg.body = "Hello. After completion of the form with the applicant, please click the following url to acknowledge. https://codeitsuisse-mcspicy.herokuapp.com/updateProgress/See123"
     mail.send(msg)
     return "Sent"
 
