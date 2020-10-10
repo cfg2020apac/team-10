@@ -1,33 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom'; import {
+import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   StatusBar,
-  TextInput
+  TextInput,
 } from 'react-native';
 import { Button, Input, Card, Overlay, Text } from 'react-native-elements';
 
 export default ViewActivityDetails = ({ route, navigation }) => {
-
   const [activity, setActivity] = useState();
 
   const [activityId, setActivityId] = useState();
-  const [activityName, setActivityName] = useState("");
-  const [description, setDescription] = useState("");
-  const [status, setStatus] = useState(""); //This should be set in the backend
-  const [caseOfficer, setCaseOfficer] = useState("")
-  const [applicant, setApplicant] = useState("");
+  const [activityName, setActivityName] = useState('');
+  const [description, setDescription] = useState('');
+  const [status, setStatus] = useState(''); //This should be set in the backend
+  const [caseOfficer, setCaseOfficer] = useState('');
+  const [applicant, setApplicant] = useState('');
   const [comments, setComments] = useState([]);
   const [createdDate, setCreateDate] = useState(new Date());
   const [updatedDate, setUpdatedDate] = useState(new Date());
 
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessages, setErrorMessages] = useState([""]);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessages, setErrorMessages] = useState(['']);
 
   const [updateMode, setUpdateMode] = useState(false);
   const [showDeleteOverlay, setShowDeleteOverlay] = useState(false);
@@ -40,7 +39,7 @@ export default ViewActivityDetails = ({ route, navigation }) => {
     caseOfficer: caseOfficer,
     applicant: applicant,
     comments: comments,
-  }
+  };
 
   const deletedActivity = {
     activityId: activityId,
@@ -50,14 +49,16 @@ export default ViewActivityDetails = ({ route, navigation }) => {
     caseOfficer: caseOfficer,
     applicant: applicant,
     comments: comments,
-  }
+  };
 
   const getActivity = async () => {
-
     const id = route.params.id;
     console.log(id);
     axios
-      .get("https://codeitsuisse-mcspicy.herokuapp.com/getActivityByID/" + route.params.id)
+      .get(
+        'https://codeitsuisse-mcspicy.herokuapp.com/getActivityByID/' +
+          route.params.id,
+      )
       .then((response) => {
         const data = response.data[0];
         console.log(data);
@@ -76,15 +77,12 @@ export default ViewActivityDetails = ({ route, navigation }) => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const updateActivity = async () => {
     console.log(updatedActivity);
     axios
-      .post(
-        "http://localhost:5000/project/updateProject/",
-        updatedActivity
-      )
+      .post('http://localhost:5000/project/updateProject/', updatedActivity)
       .then((res) => {
         console.log(res.data);
         setSuccessMessage(res.data);
@@ -100,7 +98,10 @@ export default ViewActivityDetails = ({ route, navigation }) => {
 
   const deleteActivity = async () => {
     axios
-      .post("https://codeitsuisse-mcspicy.herokuapp.com/deleteActivity", deletedActivity)
+      .post(
+        'https://codeitsuisse-mcspicy.herokuapp.com/deleteActivity',
+        deletedActivity,
+      )
       .then((res) => {
         console.log(res.data);
         setSuccessMessage(res.data);
@@ -115,13 +116,11 @@ export default ViewActivityDetails = ({ route, navigation }) => {
       });
   };
 
-  const history = useHistory();
-
   function formatDate(date) {
-    const fDate = new Date(date)
+    const fDate = new Date(date);
     const f_Time = fDate.toLocaleTimeString().substring(0, 5);
     const f_Date = fDate.toLocaleDateString();
-    const formattedDate = f_Date + " " + f_Time;
+    const formattedDate = f_Date + ' ' + f_Time;
     return formattedDate; //fDate.to().substr(0, 22);
   }
 
@@ -135,7 +134,7 @@ export default ViewActivityDetails = ({ route, navigation }) => {
       <SafeAreaView>
         <ScrollView>
           <Text>{updateMode}</Text>
-          {(updateMode === true) ? (
+          {updateMode === true ? (
             <>
               <Input
                 // disabled={updateMode}
@@ -143,8 +142,7 @@ export default ViewActivityDetails = ({ route, navigation }) => {
                 inputContainerStyle={{ marginHorizontal: 10, marginTop: 20 }}
                 value={activityName}
                 onChangeText={setActivityName}
-              >
-              </Input>
+              ></Input>
               <Input
                 // disabled={updateMode}
                 label="Description"
@@ -153,8 +151,7 @@ export default ViewActivityDetails = ({ route, navigation }) => {
                 inputContainerStyle={{ marginHorizontal: 10, marginTop: 20 }}
                 value={description}
                 onChangeText={setDescription}
-              >
-              </Input>
+              ></Input>
               <Input
                 // disabled={updateMode}
                 label="Status"
@@ -176,29 +173,28 @@ export default ViewActivityDetails = ({ route, navigation }) => {
               />
             </>
           ) : (
-              <>
-                <Input
-                  // disabled={updateMode}
-                  placeholder="Description"
-                  multiline={true}
-                  numberOfLines={4}
-                  inputContainerStyle={{ marginHorizontal: 10, marginTop: 20 }}
-                  value={description}
-                  onChangeText={setDescription}
-                >
-                </Input>
-                <Button
-                  style={styles.buttonContainer}
-                  title="Update"
-                  onPress={setUpdateMode(true)}
-                />
-                <Button
-                  style={styles.buttonContainer}
-                  title="Delete"
-                  onPress={setShowDeleteOverlay(true)}
-                />
-              </>
-            )}
+            <>
+              <Input
+                // disabled={updateMode}
+                placeholder="Description"
+                multiline={true}
+                numberOfLines={4}
+                inputContainerStyle={{ marginHorizontal: 10, marginTop: 20 }}
+                value={description}
+                onChangeText={setDescription}
+              ></Input>
+              <Button
+                style={styles.buttonContainer}
+                title="Update"
+                onPress={setUpdateMode(true)}
+              />
+              <Button
+                style={styles.buttonContainer}
+                title="Delete"
+                onPress={setShowDeleteOverlay(true)}
+              />
+            </>
+          )}
 
           {/* <Overlay isVisible={showDeleteOverlay} onBackdropPress={() => { setShowDeleteOverlay(false) }}>
             <Card>
