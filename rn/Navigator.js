@@ -17,7 +17,7 @@ import { Icon } from 'react-native-elements';
 
 import Todo from './pages/todo/Todo';
 import CreateNewApplicant from './pages/applicants/CreateNewApplicant';
-import VieworUpdateApplicantProfile from './pages/applicants/VieworUpdateApplicantProfile';
+import ViewApplicantProfile from './pages/applicants/ViewApplicantProfile';
 import ViewApplicants from './pages/applicants/ViewApplicants';
 import CreateActivity from './pages/activity/CreateActivity';
 import ViewActivityDetails from './pages/activity/ViewActivityDetails';
