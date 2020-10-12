@@ -28,6 +28,36 @@ import { ListItem, Avatar, Button } from 'react-native-elements';
 //     applicantCurrentProgress: 'Current Progress',
 //   },
 // ];
+const list = [
+  {
+    applicantname: 'Vivian',
+    applicantID: 'Vivian123',
+    waitingTime: '',
+    applicantCurrentStatus: 'Assessment',
+    applicantCurrentProgress: 'On-going',
+  },
+  {
+    applicantname: 'Tom Jerry',
+    applicantID: 'TomJerry123',
+    waitingTime: '',
+    applicantCurrentStatus: 'Housing',
+    applicantCurrentProgress: 'Pending',
+  },
+  {
+    applicantname: 'Tom',
+    applicantID: 'Tom123',
+    waitingTime: '',
+    applicantCurrentStatus: 'Assessment',
+    applicantCurrentProgress: 'Pending',
+  },
+  {
+    applicantname: 'Jerry',
+    applicantID: 'Jerry123',
+    waitingTime: '',
+    applicantCurrentStatus: 'Case Plan With Case Manager',
+    applicantCurrentProgress: 'Pending',
+  },
+];
 
 export default ViewApplicants = ({ navigation }) => {
 
@@ -53,7 +83,7 @@ export default ViewApplicants = ({ navigation }) => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView>
-          <View style={{ height: 400 }}>
+          <View style={{ height: 400, paddingTop: 20}}>
             {applicants.map((l, i) => (
               <ListItem
                 key={i}
@@ -64,9 +94,9 @@ export default ViewApplicants = ({ navigation }) => {
                   })
                 }
               >
-                <Avatar source={require('../../img/users.png')} />
-                <ListItem.Content>
-                  <ListItem.Title>{l.applicantname}</ListItem.Title>
+                <Avatar containerStyle={{marginLeft:10}} size="medium"  source={require('../../img/users.png')} />
+                <ListItem.Content >
+                  <ListItem.Title style={{marginBottom:8, fontSize:18,fontWeight:"bold"}}>{l.applicantName}</ListItem.Title>
                   <ListItem.Subtitle>
                     {'ID:  ' + l.applicantID}
                   </ListItem.Subtitle>
